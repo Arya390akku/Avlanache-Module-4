@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.18;
 
@@ -7,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract DegenToken is ERC20, Ownable {
 
-    enum ItemType { Sunglass, Sneakers, Jacket }
+    enum ItemType { MTB, HYBRID, ROADBIKE }
 
     // Item prices in AVAX
     mapping(ItemType => uint256) public itemPrices;
@@ -19,13 +18,13 @@ contract DegenToken is ERC20, Ownable {
     mapping(address => mapping(ItemType => uint256)) public accountItems;
 
     constructor(address initialOwner) Ownable(initialOwner) ERC20("Degen", "DGN") {
-        itemPrices[ItemType.Sunglass] = 200;
-        itemPrices[ItemType.Sneakers] = 300;
-        itemPrices[ItemType.Jacket] = 500;
+        itemPrices[ItemType.MTB] = 200;
+        itemPrices[ItemType.HYBRID] = 300;
+        itemPrices[ItemType.ROADBIKE] = 500;
 
-        itemQuantities[ItemType.Sunglass] = 100;
-        itemQuantities[ItemType.Sneakers] = 100;
-        itemQuantities[ItemType.Jacket] = 100;
+        itemQuantities[ItemType.MTB] = 100;
+        itemQuantities[ItemType.HYBRID] = 100;
+        itemQuantities[ItemType.ROADBIKE] = 100;
     }
 
     function mint(address to, uint256 amount) external onlyOwner {
@@ -54,14 +53,14 @@ contract DegenToken is ERC20, Ownable {
 
     function viewInStoreItems() external view returns (string memory output) {
         uint256[3] memory quantities;
-        quantities[0] = itemQuantities[ItemType.Sunglass];
-        quantities[1] = itemQuantities[ItemType.Sneakers];
-        quantities[2] = itemQuantities[ItemType.Jacket];
+        quantities[0] = itemQuantities[ItemType.MTB];
+        quantities[1] = itemQuantities[ItemType.HYBRID];
+        quantities[2] = itemQuantities[ItemType.ROADBIKE];
 
         output = string(abi.encodePacked(
-            "Sunglass: ", toString(quantities[0]),
-            ", Sneakers: ", toString(quantities[1]),
-            ", Jacket: ", toString(quantities[2])
+            "MTB: ", toString(quantities[0]),
+            ", HYBRID: ", toString(quantities[1]),
+            ", ROADBIKE: ", toString(quantities[2])
         ));
 
         return output;
@@ -70,14 +69,14 @@ contract DegenToken is ERC20, Ownable {
     // View items owned by an account
     function viewOwnedItems(address account) external view returns (string memory output) {
         uint256[3] memory ownedQuantities;
-        ownedQuantities[0] = accountItems[account][ItemType.Sunglass];
-        ownedQuantities[1] = accountItems[account][ItemType.Sneakers];
-        ownedQuantities[2] = accountItems[account][ItemType.Jacket];
+        ownedQuantities[0] = accountItems[account][ItemType.MTB];
+        ownedQuantities[1] = accountItems[account][ItemType.HYBRID];
+        ownedQuantities[2] = accountItems[account][ItemType.ROADBIKE];
 
         output = string(abi.encodePacked(
-            "    Sunglass: ", toString(ownedQuantities[0]),
-            ", Sneakers: ", toString(ownedQuantities[1]),
-            ", Jacket: ", toString(ownedQuantities[2])
+            "    MTB: ", toString(ownedQuantities[0]),
+            ", HYBRID: ", toString(ownedQuantities[1]),
+            ", ROADBIKE: ", toString(ownedQuantities[2])
         ));
 
         return output;
